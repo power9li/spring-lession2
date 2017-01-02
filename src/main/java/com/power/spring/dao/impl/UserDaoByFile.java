@@ -171,6 +171,26 @@ public class UserDaoByFile implements UserDao{
         return u;
     }
 
+    @Override
+    public boolean hasSeamUserName(final String userName) {
+        boolean has = readOperation(()->{
+            boolean has2 = false;
+            File uf = new File(FILE_PATH + "/users/");
+            File[] files = uf.listFiles();
+            Gson gson = new Gson();
+            for (File f : files) {
+                String userStr = FileUtils.readFileToString(f);
+                User user = gson.fromJson(userStr, User.class);
+                if (user.getUserName().equals(userName)) {
+                    has2 = true;
+                    break;
+                }
+            }
+            return has2;
+        });
+        return has;
+    }
+
     public <T> T writeOperation(Callable<T> cab){
         T t = null;
         try {

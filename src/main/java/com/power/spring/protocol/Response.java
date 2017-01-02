@@ -1,5 +1,7 @@
 package com.power.spring.protocol;
 
+import com.power.spring.enums.StatusCode;
+
 /**
  * Created by shenli on 2017/1/1.
  */

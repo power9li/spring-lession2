@@ -3,7 +3,7 @@ package com.power.spring.client;
 import com.power.spring.bean.User;
 import com.power.spring.protocol.Request;
 import com.power.spring.protocol.Response;
-import com.power.spring.protocol.StatusCode;
+import com.power.spring.enums.StatusCode;
 import com.power.spring.utils.JSONUtils;
 
 /**

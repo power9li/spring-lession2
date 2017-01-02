@@ -1,4 +1,4 @@
-package com.power.spring.protocol;
+package com.power.spring.enums;
 
 /**
  * Created by shenli on 2017/1/1.
@@ -9,7 +9,8 @@ public enum StatusCode {
     SERVER_INTERNAL_ERROR(500),
     BAD_REQUEST(400),
     NOT_FOUND(404),
-    SESSION_TIMEOUT(440);
+    SESSION_TIMEOUT(440),
+    VALIDATION_FAILED(510);
 
 
     private int code;

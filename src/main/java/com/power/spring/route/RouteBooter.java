@@ -1,9 +1,10 @@
-package com.power.spring.utils;
+package com.power.spring.route;
 
 import com.power.spring.annotations.Controller;
 import com.power.spring.annotations.Mapping;
 import com.power.spring.annotations.PackageScanner;
-import com.power.spring.route.Route;
+import com.power.spring.enums.EventType;
+import com.power.spring.utils.PropUtils;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -13,12 +14,13 @@ import java.util.Set;
 /**
  * Created by shenli on 2017/1/2.
  */
-public class RouteUtils {
+public class RouteBooter {
 
 
     private static Map<String, RouteItem> routeMap = new HashMap<>();
 
-    static{
+    public static void init(){
+        System.out.println("RouteBooter.init");
         String scanPkg = PropUtils.getProp("route.scan.package");
         System.out.println("scanPkg = " + scanPkg);
         Set<Class<?>> allclasses = PackageScanner.findFileClass(scanPkg);
@@ -31,11 +33,12 @@ public class RouteUtils {
                     if(method.isAnnotationPresent(Mapping.class)){
 //                        System.out.println("YES method = " + method);
                         Mapping mapping = method.getAnnotation(Mapping.class);
-                        String command = mapping.value();
-                        System.out.println("command = " + command + ",method=" + method.getName());
+                        String command = mapping.command();
+                        EventType[] events = mapping.events();
+                        System.out.println("command = " + command + ",events=" + events + ", method = " + method.getName());
                         try {
                             Object instance = clazz.newInstance();
-                            routeMap.put(command, new RouteItem(command,instance,method));
+                            routeMap.put(command, new RouteItem(command,instance,method,events));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -59,11 +62,13 @@ public class RouteUtils {
         private String command;
         private Object instance;
         private Method method;
+        private EventType[] eventTypes;
 
-        public RouteItem(String command, Object instance, Method method) {
+        public RouteItem(String command, Object instance, Method method,EventType[] eventTypes) {
             this.command = command;
             this.instance = instance;
             this.method = method;
+            this.eventTypes = eventTypes;
         }
 
         public String getCommand() {
@@ -76,6 +81,10 @@ public class RouteUtils {
 
         public Method getMethod() {
             return method;
+        }
+
+        public EventType[] getEventTypes() {
+            return eventTypes;
         }
     }
 

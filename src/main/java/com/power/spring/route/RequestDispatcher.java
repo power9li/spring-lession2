@@ -1,11 +1,10 @@
 package com.power.spring.route;
 
+import com.power.spring.enums.StatusCode;
 import com.power.spring.protocol.Request;
 import com.power.spring.protocol.Response;
-import com.power.spring.protocol.StatusCode;
 import com.power.spring.protocol.Validation;
 import com.power.spring.trans.RequestParser;
-import com.power.spring.utils.RouteUtils;
 import com.power.spring.validation.UserSessionValidation;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -22,7 +21,6 @@ import java.util.Map;
  */
 public class RequestDispatcher implements HttpHandler {
 
-    private static final Map<String, Route> routeMap = new HashMap<>();
     private static final Map<Collection<String>, Validation> validationMap = new HashMap<>();
 
     static {
@@ -68,8 +66,8 @@ public class RequestDispatcher implements HttpHandler {
 
         System.out.println("before doHandler");
         //do hanlder
-//        Route route = routeMap.get(command);
-        Route route = RouteUtils.getRoute(command);
+        Route route = RouteBooter.getRoute(command);
+
         System.out.println("route = " + route);
         if (route != null) {
             resp = route.handle(request.getReqJsonBody());

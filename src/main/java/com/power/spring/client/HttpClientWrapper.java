@@ -2,7 +2,7 @@ package com.power.spring.client;
 
 import com.power.spring.protocol.Request;
 import com.power.spring.protocol.Response;
-import com.power.spring.protocol.StatusCode;
+import com.power.spring.enums.StatusCode;
 import com.sun.net.httpserver.Headers;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

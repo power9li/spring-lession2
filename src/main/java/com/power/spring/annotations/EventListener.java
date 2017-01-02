@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Mapping {
-    public String command();
-    public EventType[] events() default {EventType.PRE_INVOKE,EventType.AFTER_INVOKE};
+public @interface EventListener {
+    String command();
+    EventType event();
 }

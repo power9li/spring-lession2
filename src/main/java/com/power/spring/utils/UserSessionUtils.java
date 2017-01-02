@@ -34,4 +34,11 @@ public class UserSessionUtils {
         sessionIdMap.remove(sessionId);
         sessionUidMap.remove(uid);
     }
+
+    public static void deleteSession(long userId) {
+        UserSession userSession = sessionUidMap.get(userId);
+        String sessionId = userSession.getSessionId();
+        sessionIdMap.remove(sessionId);
+        sessionUidMap.remove(userId);
+    }
 }

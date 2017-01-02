@@ -19,4 +19,6 @@ public interface UserDao {
 
     User loadUserByNamePasswd(String userName,String md5Passed);
 
+    boolean hasSeamUserName(String userName);
+
 }

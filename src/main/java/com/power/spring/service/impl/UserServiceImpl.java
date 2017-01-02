@@ -1,7 +1,7 @@
 package com.power.spring.service.impl;
 
-import com.power.spring.annotations.Mapping;
 import com.power.spring.annotations.Controller;
+import com.power.spring.annotations.Mapping;
 import com.power.spring.bean.User;
 import com.power.spring.bean.UserSession;
 import com.power.spring.dao.UserDao;
@@ -20,25 +20,24 @@ public class UserServiceImpl implements UserService{
 
     private UserDao userDao = new UserDaoByFile();
 
-    @Mapping(value = "/user/create")
+    @Mapping(command = "/user/create")
     public boolean createUser(User user)
     {
-        System.out.println("user.getUserName() = " + user.getUserName());
         return userDao.createUser(user);
     }
 
-    @Mapping(value = "/user/delete")
+    @Mapping(command = "/user/delete")
     public boolean deleteUser(long userId) {
         return userDao.deleteUser(userId);
     }
 
-    @Mapping(value = "/user/disable")
+    @Mapping(command = "/user/disable")
     public boolean disableUser(long userId)
     {
         return userDao.disableUser(userId);
     }
 
-    @Mapping(value = "/user/queryUsers")
+    @Mapping(command = "/user/queryUsers")
     public List<User> queryUsers(String userNamePrex, boolean onlyValidUser)
     {
         return userDao.queryUser(userNamePrex,onlyValidUser);
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService{
      * @param md5EncodedPassword
      * @return
      */
-    @Mapping(value = "/user/login")
+    @Mapping(command = "/user/login")
     public UserSession login(String userName, String md5EncodedPassword)
     {
         User u = userDao.loadUserByNamePasswd(userName, md5EncodedPassword);
