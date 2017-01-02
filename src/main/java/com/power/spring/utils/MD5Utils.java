@@ -7,9 +7,14 @@ import java.security.MessageDigest;
  */
 public class MD5Utils {
 
-    public static byte[] getMD5(String content) throws Exception {
-        MessageDigest digest = MessageDigest.getInstance("MD5");
-        byte[] bytes = digest.digest(content.getBytes("utf8"));
+    public static byte[] getMD5(String content) {
+        byte[] bytes = null;
+        try {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            bytes = digest.digest(content.getBytes("utf8"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return bytes;
     }
 }

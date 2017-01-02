@@ -27,7 +27,6 @@ public class UserSessionUtils {
         return sessionUidMap.get(userId);
     }
 
-
     public static void deleteSession(String sessionId) {
         UserSession userSession = sessionIdMap.get(sessionId);
         long uid = userSession.getUserId();

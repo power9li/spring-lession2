@@ -21,8 +21,7 @@ public class UserServiceImpl implements UserService{
     private UserDao userDao = new UserDaoByFile();
 
     @Mapping(command = "/user/create")
-    public boolean createUser(User user)
-    {
+    public boolean createUser(User user) {
         return userDao.createUser(user);
     }
 
@@ -38,8 +37,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Mapping(command = "/user/queryUsers")
-    public List<User> queryUsers(String userNamePrex, boolean onlyValidUser)
-    {
+    public List<User> queryUsers(String userNamePrex, boolean onlyValidUser) {
         return userDao.queryUser(userNamePrex,onlyValidUser);
     }
 

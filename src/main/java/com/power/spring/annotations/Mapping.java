@@ -14,5 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Mapping {
     public String command();
-    public EventType[] events() default {EventType.PRE_INVOKE,EventType.AFTER_INVOKE};
+    public EventType[] events() default {
+            EventType.PRE_INVOKE,
+            EventType.AFTER_INVOKE};
 }

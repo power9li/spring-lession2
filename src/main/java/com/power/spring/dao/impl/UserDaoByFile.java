@@ -54,7 +54,6 @@ public class UserDaoByFile implements UserDao{
 
         boolean bl = writeOperation(() ->{
 
-            //TODO: filter seam username
             long userId = maxUserId.incrementAndGet();
             user.setUserId(userId);
             user.setRegDate(new Date());
@@ -173,6 +172,7 @@ public class UserDaoByFile implements UserDao{
 
     @Override
     public boolean hasSeamUserName(final String userName) {
+        System.out.println("UserDaoByFile.hasSeamUserName(userName="+userName+")");
         boolean has = readOperation(()->{
             boolean has2 = false;
             File uf = new File(FILE_PATH + "/users/");
@@ -186,6 +186,7 @@ public class UserDaoByFile implements UserDao{
                     break;
                 }
             }
+            System.out.println("return "+has2);
             return has2;
         });
         return has;

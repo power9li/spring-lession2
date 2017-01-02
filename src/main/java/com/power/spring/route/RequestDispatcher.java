@@ -24,7 +24,13 @@ public class RequestDispatcher implements HttpHandler {
     private static final Map<Collection<String>, Validation> validationMap = new HashMap<>();
 
     static {
-        validationMap.put(Arrays.asList(new String[]{"user/create", "user/delete,", "user/disable", "user/queryUsers"}),new UserSessionValidation());
+        validationMap.put(
+                Arrays.asList(new String[]{
+                        "user/create",
+                        "user/delete,",
+                        "user/disable",
+                        "user/queryUsers"}),
+                new UserSessionValidation());
     }
 
 
@@ -88,9 +94,9 @@ public class RequestDispatcher implements HttpHandler {
             }
             int stateCode = (resp.getStatus() == null) ? 500 : resp.getStatus().getCode();
             System.out.println("Server HTTP stateCode = " + stateCode);
-            httpExchange.sendResponseHeaders(stateCode, response.length());
+            httpExchange.sendResponseHeaders(stateCode, response.getBytes().length);
             OutputStream os = httpExchange.getResponseBody();
-            os.write(response.getBytes());
+            os.write(response.getBytes("utf8"));
             os.close();
         }catch(IOException ioe){
             ioe.printStackTrace();

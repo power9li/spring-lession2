@@ -4,7 +4,9 @@ import com.power.spring.bean.User;
 import com.power.spring.protocol.Request;
 import com.power.spring.protocol.Response;
 import com.power.spring.enums.StatusCode;
+import com.power.spring.utils.HexUtils;
 import com.power.spring.utils.JSONUtils;
+import com.power.spring.utils.MD5Utils;
 
 /**
  * Created by shenli on 2016/12/31.
@@ -26,26 +28,28 @@ public class UserClient {
 
     public static void doCreateUser(){
 
+        //构造用户对象
         User user = new User();
         user.setEnabled(true);
-        user.setUserName("李四");
-        user.setPassword("1234567");
+        user.setUserName("Jack");
+        user.setPassword(HexUtils.byte2hex(MD5Utils.getMD5("1234567")));
+        //序列化
         String reqJsonBody = JSONUtils.toJSON(user);
-        System.out.println("reqJsonBody = " + reqJsonBody);
+        //创建请求对象
         Request req = new Request("user/create",reqJsonBody);
-//        Response resp = server.handle(req);
+        //调用服务
         Response resp = HttpClientWrapper.doRequest(req);
         System.out.println("resp.getStatus() = " + resp.getStatus());
+        System.out.println("resp.getRespBody() = " + resp.getRespBody());
 
-        user.setUserName("王五");
-        user.setPassword("1qaz2wsx");
+
+        user.setUserName("Jack");
+        user.setPassword(HexUtils.byte2hex(MD5Utils.getMD5("1234567")));
         reqJsonBody = JSONUtils.toJSON(user);
-        System.out.println("resp = " + resp);
         req = new Request("user/create", reqJsonBody);
-//        resp = server.handle(req);
         resp = HttpClientWrapper.doRequest(req);
         System.out.println("resp.getStatus() = " + resp.getStatus());
-
+        System.out.println("resp.getRespBody() = " + resp.getRespBody());
 
 
     }

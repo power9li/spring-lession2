@@ -8,5 +8,6 @@ import java.lang.reflect.Method;
  */
 public interface Proxy {
 
-    public Object proxy(Object sourceTarget, Method sourceMethod, Object[] sourceParams) throws InvocationTargetException, IllegalAccessException;
+    public Object proxy(Object sourceTarget, Method sourceMethod, Object[] sourceParams)
+            throws InvocationTargetException, IllegalAccessException;
 }

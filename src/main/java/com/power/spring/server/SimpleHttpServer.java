@@ -25,9 +25,6 @@ public class SimpleHttpServer {
         server.createContext("/", new RequestDispatcher());
         server.setExecutor(null); // creates a default executor
         server.start();
-
-
-
         System.out.println("server started. listen port 8000");
     }
 
@@ -36,10 +33,7 @@ public class SimpleHttpServer {
         ProxyBooter.init();
         RouteBooter.init();
     }
-
-
     public static void main(String[] args) {
         new SimpleHttpServer().start();
     }
-
 }

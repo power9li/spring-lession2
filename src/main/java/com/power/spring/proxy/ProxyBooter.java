@@ -43,26 +43,34 @@ public class ProxyBooter {
     public static void init(){
         System.out.println("ProxyBooter.init");
         String scanPkg = PropUtils.getProp("proxy.scan.package");
-        System.out.println("scanPkg = " + scanPkg);
+//        System.out.println(" scanPkg = " + scanPkg);
         Set<Class<?>> allclasses = PackageScanner.findFileClass(scanPkg);
         for (Class clazz: allclasses) {
-            if(clazz.isAssignableFrom(Proxy.class)){
+//            System.out.println(" .. scan clazz = " + clazz);
+            if(Proxy.class.isAssignableFrom(clazz)){
                 MethodProxy proxy = (MethodProxy)clazz.getAnnotation(MethodProxy.class);
-                Class clz = proxy.clazz();
-                String methodName = proxy.methodName();
-                System.out.println("clz = " + clz + ",methodName=" + methodName);
-                try {
-                    Object instance = clazz.newInstance();
-                    proxyItemHashMap.put(clz.getName() + "-" + methodName, new ProxyItem(clz,methodName,(Proxy)instance));
+                if(proxy != null) {
+                    Class clz = proxy.clazz();
+                    String methodName = proxy.methodName();
+                    System.out.println(" .. ADD -> clazz = " + clz + ",methodName=" + methodName);
+                    try {
+                        Object instance = clazz.newInstance();
+                        String key = clz.getName() + "-" + methodName;
+                        System.out.println("key input = " + key);
+                        proxyItemHashMap.put(key, new ProxyItem(clz, methodName, (Proxy) instance));
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
     }
 
     public static ProxyItem getByClzMethod(Class clazz, String methodName) {
-        return proxyItemHashMap.get(clazz + "-" + methodName);
+        System.out.println("ProxyBooter.getByClzMethod(clazz="+clazz+",methodName="+methodName+")");
+        String key = clazz.getName() + "-" + methodName;
+        System.out.println("key get = " + key);
+        return proxyItemHashMap.get(key);
     }
 }

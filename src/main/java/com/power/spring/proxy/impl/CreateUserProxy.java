@@ -26,7 +26,8 @@ public class CreateUserProxy implements Proxy {
             User u = (User) sourceParams[0];
             boolean hasSeamUserName = userDao.hasSeamUserName(u.getUserName());
             if (hasSeamUserName) {
-                return false;
+                throw new RuntimeException(
+                        "create user failed, username ["+u.getUserName()+"]already existed.");
             }
         }
         return sourceMethod.invoke(sourceTarget, sourceParams);

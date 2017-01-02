@@ -7,6 +7,7 @@ import com.power.spring.enums.EventType;
 import com.power.spring.utils.PropUtils;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -16,17 +17,16 @@ import java.util.Set;
  */
 public class RouteBooter {
 
-
     private static Map<String, RouteItem> routeMap = new HashMap<>();
 
     public static void init(){
         System.out.println("RouteBooter.init");
         String scanPkg = PropUtils.getProp("route.scan.package");
-        System.out.println("scanPkg = " + scanPkg);
+        System.out.println(" scanPkg = " + scanPkg);
         Set<Class<?>> allclasses = PackageScanner.findFileClass(scanPkg);
         for (Class clazz: allclasses) {
             if(clazz.isAnnotationPresent(Controller.class)){
-//                System.out.println("YES clazz = " + clazz);
+//                System.out.println(" .. scan clazz = " + clazz);
                 Method[] declaredMethods = clazz.getDeclaredMethods();
 //                System.out.println(Arrays.toString(declaredMethods));
                 for (Method method : declaredMethods) {
@@ -35,7 +35,7 @@ public class RouteBooter {
                         Mapping mapping = method.getAnnotation(Mapping.class);
                         String command = mapping.command();
                         EventType[] events = mapping.events();
-                        System.out.println("command = " + command + ",events=" + events + ", method = " + method.getName());
+                        System.out.println(" .. ADD -> command = " + command + ", events=" + Arrays.toString(events) + ", method = " + method.getName());
                         try {
                             Object instance = clazz.newInstance();
                             routeMap.put(command, new RouteItem(command,instance,method,events));

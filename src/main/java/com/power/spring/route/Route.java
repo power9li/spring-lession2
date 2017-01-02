@@ -63,22 +63,25 @@ public class Route {
 
     }
 
-    private Object proxyOrEventInvoke(Method method, Object instance, Object[] params) throws InvocationTargetException, IllegalAccessException{
+    private Object proxyOrEventInvoke(Method method, Object instance, Object[] params)
+            throws InvocationTargetException, IllegalAccessException{
         Object rst = null;
 
         List<EventBooter.ListenerItem> preEvents = new ArrayList<>();
         List<EventBooter.ListenerItem> afterEvents = new ArrayList<>();
         for (EventType et : eventTypes) {
             EventBooter.ListenerItem item = EventBooter.getByCommandEventType(command, et);
-            if (et.equals(EventType.PRE_INVOKE)) {
-                preEvents.add(item);
-            } else if (et.equals(EventType.AFTER_INVOKE)) {
-                afterEvents.add(item);
+            if (item != null) {
+                if(et.equals(EventType.PRE_INVOKE)) {
+                    preEvents.add(item);
+                } else if (et.equals(EventType.AFTER_INVOKE)) {
+                    afterEvents.add(item);
+                }
             }
         }
 
         ProxyBooter.ProxyItem proxyItem = ProxyBooter.getByClzMethod(instance.getClass(), method.getName());
-
+        System.out.println("proxyItem = " + proxyItem);
 
         //pre events
         for (EventBooter.ListenerItem preEvent : preEvents) {
@@ -112,16 +115,9 @@ public class Route {
             Class<?>[] parameterTypes = method.getParameterTypes();
             Object[] params = null;
 
-            //没有参数,直接调用
-//        if (paramCount == 0 ) {
-//            rst = method.invoke(instance, null);
-//        }
-            //单个参数,直接映射Json到参数
-        /*else*/
             if (paramCount == 1) {
                 Object oneParam = new Gson().fromJson(jsonBody, parameterTypes[0]);
                 params = new Object[]{oneParam};
-//            rst = method.invoke(instance, oneParam);
             }
             //多个参数映射json到json数组,再到参数列表
             else if(paramCount > 1){
@@ -133,7 +129,6 @@ public class Route {
                     JsonElement je = jsonArray.get(i);
                     params[i] = gson.fromJson(je,parameterTypes[i]);
                     System.out.println("params["+i+"] = " + params[i]);
-//                rst = method.invoke(instance, params);
                 }
             }
             rst = proxyOrEventInvoke(method, instance, params);
