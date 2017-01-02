@@ -37,6 +37,7 @@ public class RequestParser {
                     nTotalRead = nTotalRead + nRead;
             }
             body = new String(bytes, 0, nTotalRead, "utf-8");
+            System.out.println("body = " + body);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

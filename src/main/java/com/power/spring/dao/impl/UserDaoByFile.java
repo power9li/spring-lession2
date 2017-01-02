@@ -9,6 +9,7 @@ import com.power.spring.utils.MD5Utils;
 import com.power.spring.utils.PropUtils;
 import com.power.spring.utils.UserSessionUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class UserDaoByFile implements UserDao{
                 maxIdFile.createNewFile();
             }
             String idStr = FileUtils.readFileToString(maxIdFile);
-            if (idStr != null) {
+            if (StringUtils.isNotEmpty(idStr)) {
                 maxUserId.set(Long.parseLong(idStr));
             }
         } catch (IOException e) {
@@ -60,12 +61,16 @@ public class UserDaoByFile implements UserDao{
             String filePath = FILE_PATH+"/users/"+userId;
             File f = new File(filePath);
             if (!f.exists()) {
+                if (!f.getParentFile().exists()) {
+                    f.getParentFile().mkdir();
+                }
                 f.createNewFile();
             }
             else{
                 System.err.println("UserDaoByFile.createUser: file name exist.");
             }
             String userStr = new Gson().toJson(user);
+            System.out.println("before write file userStr = " + userStr);
             FileUtils.writeStringToFile(f, userStr);
 
             //write UserId&&PasswdMD5 Index File

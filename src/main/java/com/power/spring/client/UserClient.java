@@ -31,6 +31,7 @@ public class UserClient {
         user.setUserName("李四");
         user.setPassword("1234567");
         String reqJsonBody = JSONUtils.toJSON(user);
+        System.out.println("reqJsonBody = " + reqJsonBody);
         Request req = new Request("user/create",reqJsonBody);
 //        Response resp = server.handle(req);
         Response resp = HttpClientWrapper.doRequest(req);
@@ -39,6 +40,7 @@ public class UserClient {
         user.setUserName("王五");
         user.setPassword("1qaz2wsx");
         reqJsonBody = JSONUtils.toJSON(user);
+        System.out.println("resp = " + resp);
         req = new Request("user/create", reqJsonBody);
 //        resp = server.handle(req);
         resp = HttpClientWrapper.doRequest(req);

@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService{
     @Mapping(value = "/user/create")
     public boolean createUser(User user)
     {
+        System.out.println("user.getUserName() = " + user.getUserName());
         return userDao.createUser(user);
     }
 

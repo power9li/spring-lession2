@@ -12,6 +12,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class HttpClientWrapper {
                     post.addHeader(key, Arrays.toString(value.toArray()));
                 }
             }
-            post.setEntity(new StringEntity(request.getReqJsonBody()));
+            post.setEntity(new StringEntity(request.getReqJsonBody(), Charset.forName("UTF8")));
             HttpResponse response = httpClient.execute(post);
             int statusCode = response.getStatusLine().getStatusCode();
             System.out.println("HTTP statusCode = " + statusCode);
